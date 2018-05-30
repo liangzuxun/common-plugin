@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>移动端最底部栏的样式</title>
+    <!-- 
+        1.容器元素高度不够的时候置底
+        2.容器元素高度比body元素高时候置底
+        3.处理当使用绝对定位固定到底部时候 安卓输入法把页面挤压导致底部(或按钮)与上方元素重叠问题
+
+     -->
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            padding: 10px;
+            background: #f7f7f7;
+        }
+
+        .dpx {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .main {
+            height: 500px;
+        }
+
+        .bottom {
+            height: 100px;
+            margin-top: 100px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="main">
+
+        </div>
+        <div class="bottom">
+
+        </div>
+    </div>
+    <script>
+        //同时处理安卓输入法把页面挤压问题
+        setTimeout(function () {
+            var container = document.querySelector('.container');
+            var bottom = document.querySelector('.container .bottom')
+            var containerHeight = container.clientHeight;
+            var bodyHeight = document.body.clientHeight;
+            container.style.minHeight = bodyHeight + 'px'
+            //bottom 必须设置margin-top
+            //若原高度大于body高度 清除垂直弹性布局样式 由bottom的margin-top决定位置
+            //否则直接用弹性布局两端对齐
+            if (containerHeight > bodyHeight) {
+                container.classList.remove('dpx')
+            } else {
+                container.classList.add('dpx')
+
+            }
+        }, 0)
+    </script>
+</body>
+
+</html>
